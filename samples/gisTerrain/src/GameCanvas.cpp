@@ -60,8 +60,8 @@ void GameCanvas::update() {
 
 void GameCanvas::draw() {
 	// Enable rendering states: lighting, camera, shadow mapping, depth testing.
-	sun.enable();
 	cam.begin();
+	sun.enable();
 	shadow.enable();
 	enableDepthTest();
 
@@ -70,9 +70,9 @@ void GameCanvas::draw() {
 
 	// Restore rendering states.
 	disableDepthTest();
-	cam.end();
 	shadow.disable();
 	sun.disable();
+	cam.end();
 }
 
 void GameCanvas::keyPressed(int key) {
