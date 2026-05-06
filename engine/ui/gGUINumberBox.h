@@ -30,6 +30,8 @@ public:
 	 * @param texttype for switching between integer and float values
 	 */
 	bool setType(bool isInteger = true);
+	void setFloatPrecision(int precision);
+	int getFloatPrecision() const;
 	void setSize(int width, int height);
 	void showTitle(bool isShown);
 
@@ -61,6 +63,7 @@ private:
 	int boxwidth, boxheight, numboxwidth, numboxheight, smalboxwidth, smalboxheight;
 
 	bool b1ispressed, b2ispressed;
+	int floatprecision;
 	bool b1isdisabled, b2isdisabled;
 	bool isinteger;
 

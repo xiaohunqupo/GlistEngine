@@ -7,6 +7,8 @@
 
 #include "gGUINumberBox.h"
 #include "gBaseCanvas.h"
+#include <sstream>
+#include <iomanip>
 
 gGUINumberBox::gGUINumberBox() {
 	b1ispressed = false;
@@ -68,6 +70,7 @@ gGUINumberBox::gGUINumberBox() {
 	minvalue = std::numeric_limits<int>::min();
 	maxvaluef = std::numeric_limits<float>::max();
 	minvaluef = std::numeric_limits<float>::min();
+	floatprecision = 2;
 	increment = 1;
 	incrementf = 0.1f;
 }
@@ -175,7 +178,9 @@ int gGUINumberBox::getInteger() {
 }
 
 void gGUINumberBox::setFloat(float value) {
-	textbox.setText(gToStr(value));
+	std::stringstream ss;
+	ss << std::fixed << std::setprecision(floatprecision) << value;
+	textbox.setText(ss.str());
 }
 
 float gGUINumberBox::getFloat() {
@@ -196,6 +201,15 @@ void gGUINumberBox::setFloatIncrement(float value) {
 
 float gGUINumberBox::getFloatIncrement() {
 	return incrementf;
+}
+
+void gGUINumberBox::setFloatPrecision(int precision) {
+	if(precision < 0) precision = 0;
+	floatprecision = precision;
+}
+
+int gGUINumberBox::getFloatPrecision() const {
+	return floatprecision;
 }
 
 void gGUINumberBox::mousePressed(int x, int y, int button) {
@@ -241,7 +255,7 @@ void gGUINumberBox::mouseReleased(int x, int y, int button) {
 				castcurrtexttofloat = maxvaluef;
 			    b1isdisabled = true;
 			}
-			setText(gToStr(castcurrtexttofloat));
+			setFloat(castcurrtexttofloat);
 			if (castcurrtexttofloat > minvaluef) b2isdisabled = false;
 			if(oldvaluestr != getText()) root->getCurrentCanvas()->onGuiEvent(id, G_GUIEVENT_VALUECHANGED, getText(), oldvaluestr);
 		}
@@ -272,7 +286,7 @@ void gGUINumberBox::mouseReleased(int x, int y, int button) {
 				castcurrtexttofloat = minvaluef;
 			    b2isdisabled = true;
 			}
-			setText(gToStr(castcurrtexttofloat));
+			setFloat(castcurrtexttofloat);
 			if (castcurrtexttofloat < maxvaluef) b1isdisabled = false;
 			if(oldvaluestr != getText()) root->getCurrentCanvas()->onGuiEvent(id, G_GUIEVENT_VALUECHANGED, getText(), oldvaluestr);
 		}
